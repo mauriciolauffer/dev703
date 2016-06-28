@@ -1,0 +1,32 @@
+{
+	"role":{
+		"name": "dev703",
+		"object_privileges":[
+			{
+				"name": "PO.Header",
+				"type": "TABLE",
+				"privileges": [ "SELECT" ]
+			},
+			{
+				"name": "PO.Item",
+				"type": "TABLE",
+				"privileges": [ "SELECT" ]
+			},
+			{
+				"name": "get_product_sale_price",
+				"type": "PROCEDURE",
+				"privileges": [ "EXECUTE" ]
+			},
+			{
+				"name": "PO.ItemView",
+				"type": "VIEW",
+				"privileges": [ "SELECT" ]
+			},
+			{
+				"name": "SFLIGHT_MODEL",
+				"type": "VIEW",
+				"privileges": [ "SELECT" ]
+			}			
+		]
+	}
+}
