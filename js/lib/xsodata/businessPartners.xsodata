@@ -1,0 +1,4 @@
+service namespace "dev703.services" {
+  "MD.BusinessPartner"
+  as "BusinessPartners";
+}

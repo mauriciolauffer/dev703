@@ -4,6 +4,20 @@
 var xsjs  = require("sap-xsjs");
 var xsenv = require("sap-xsenv");
 var port  = process.env.PORT || 3000;
+var server = require("http").createServer();
+var express = require("express");
+var node = require("./myNode");
+var exerciseAsync = require("./exerciseAsync");
+var textBundle = require("./textBundle");
+var chatServer = require("./chatServer");
+var excel = require("./excel");
+
+var app = express();  
+app.use("/node", node());
+app.use("/node/excAsync", exerciseAsync(server));
+app.use("/node/textBundle", textBundle());
+app.use("/node/chat", chatServer(server));
+app.use("/node/excel", excel());
 
 var options = xsjs.extend({
 //	anonymous : true, // remove to authenticate calls
@@ -25,6 +39,10 @@ try {
 }
 
 // start server
-xsjs(options).listen(port);
+var xsjsApp = xsjs(options);
+app.use(xsjsApp);
 
-console.log("Server listening on port %d", port);
+server.on("request", app);
+server.listen(port, function(){
+	console.log("HTTP Server: " + server.address().port );
+});

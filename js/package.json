@@ -1,18 +1,27 @@
 {
-  "dependencies": {
-    "sap-xsenv": "1.2.2",
-    "sap-xsjs": "1.6.4"
-  },
-  "description": "",
-  "devDependencies": {
-    "sap-xsjs-test": "1.0.7"
-  },
-  "files": [],
-  "main": "server.js",
-  "name": "js",
-  "scripts": {
-    "start": "node server.js",
-    "test": "node testrun.js"
-  },
-  "version": "1.0.0"
+	"dependencies": {
+		"sap-xsenv": "1.2.2",
+		"sap-xsjs": "1.6.4",
+		"express": "4.12.3",
+		"sap-hdbext": "2.0.4",
+		"sap-xssec": "0.5.4",
+		"passport": "0.3.2",
+		"async": "latest",
+		"ws": "latest",
+		"sap-textbundle": "latest",
+		"accept-language-parser": "latest",
+		"node-xlsx": "0.6.0"
+	},
+	"description": "",
+	"devDependencies": {
+		"sap-xsjs-test": "1.0.7"
+	},
+	"files": [],
+	"main": "server.js",
+	"name": "js",
+	"scripts": {
+		"start": "node server.js",
+		"test": "node testrun.js"
+	},
+	"version": "1.0.0"
 }
