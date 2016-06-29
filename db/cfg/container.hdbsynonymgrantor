@@ -1,0 +1,9 @@
+{
+   "XSA_TECHED-a0dbsphcmzxlunt8-dev703-hdi-container": {
+      "application_user": {
+       "container_roles":[  
+         "dev703"
+       ]
+     }
+   }
+ } 

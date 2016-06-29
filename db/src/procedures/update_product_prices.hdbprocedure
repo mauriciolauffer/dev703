@@ -1,4 +1,4 @@
-PROCEDURE "::update_product_prices" (
+PROCEDURE "update_product_prices" (
 	in im_rate decimal(15,2),
         in im_direction nvarchar(10) DEFAULT 'INCREASE',
         out ex_products "Product.Products" )
