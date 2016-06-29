@@ -12,7 +12,7 @@ module.exports = {
             }
             if(client) {	
     	        wss.broadcast("Database Connected");
-                client.exec("select * from \"PO.Header\"",
+                client.exec("select TOP 25 * from \"PO.Header\"",
         	       function (err, res, cb) {
                     if (err){ return ("ERROR: " + err); }
                     wss.broadcast("Database Call Complete");
@@ -40,7 +40,7 @@ module.exports = {
 
         function execute(callback){
         	wss.broadcast("Database Connected #1");
-        	client.exec("select * from \"PO.Header\"", 
+        	client.exec("select TOP 25 * from \"PO.Header\"", 
         	             function(err,res){callback(null,err,res);});
 
         },
@@ -88,7 +88,7 @@ module.exports = {
 
         function execute(callback){
         	wss.broadcast("Database Connected #2");
-        	client.exec("select * from \"PO.Item\"", 
+        	client.exec("select TOP 25 * from \"PO.Item\"", 
         	              function(err,res){callback(null,err,res);});
 
         },
