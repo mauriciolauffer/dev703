@@ -12,7 +12,7 @@
 		"scope": {
 			"GET": "$XSAPPNAME.Display",
 			"POST": ["$XSAPPNAME.Display", "$XSAPPNAME.Create"],
-			"PUT": ["$XSAPPNAME.Display", "$XSAPPNAME.Create"],			
+			"PUT": ["$XSAPPNAME.Display", "$XSAPPNAME.Create"],
 			"DELETE": ["$XSAPPNAME.Display", "$XSAPPNAME.Delete"],
 			"default": "$XSAPPNAME.Display"
 		}
@@ -24,10 +24,10 @@
 		"scope": {
 			"GET": "$XSAPPNAME.Display",
 			"POST": ["$XSAPPNAME.Display", "$XSAPPNAME.Create"],
-			"PUT": ["$XSAPPNAME.Display", "$XSAPPNAME.Create"],			
+			"PUT": ["$XSAPPNAME.Display", "$XSAPPNAME.Create"],
 			"DELETE": ["$XSAPPNAME.Display", "$XSAPPNAME.Delete"],
 			"default": "$XSAPPNAME.Display"
-		}		
+		}
 	}, {
 		"source": "(.*)(.xsodata)",
 		"destination": "nodejs",
@@ -35,9 +35,17 @@
 		"scope": {
 			"GET": "$XSAPPNAME.Display",
 			"POST": ["$XSAPPNAME.Display", "$XSAPPNAME.Create"],
-			"PUT": ["$XSAPPNAME.Display", "$XSAPPNAME.Create"],			
+			"PUT": ["$XSAPPNAME.Display", "$XSAPPNAME.Create"],
 			"DELETE": ["$XSAPPNAME.Display", "$XSAPPNAME.Delete"],
 			"default": "$XSAPPNAME.Display"
-		}		
+		}
+	}, {
+		"source": "^/(.*)$",
+		"localDir": "resources",
+		"authenticationType": "xsuaa",
+		"scope": {
+			"GET": "$XSAPPNAME.Display",
+			"default": "$XSAPPNAME.Display"
+		}
 	}]
 }

@@ -21,7 +21,7 @@ modules:
   type: html5
   path: web
   requires:
-    - name: dev803-uaa
+    - name: dev703-uaa
     - name: nodejs
       group: destinations
       properties:
