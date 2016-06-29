@@ -1,11 +1,15 @@
 _schema-version: 2.0.0
 ID: dev703
-version: 0.0.1
+version: 0.0.3
 
 modules:
 - name: db
   type: hdb
   path: db
+  properties:
+    SERVICE_REPLACEMENTS:
+      - key: forgein-schema
+        service: CrossSchemaService
   requires:
    - name: hdi-container
      properties:

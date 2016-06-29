@@ -1,6 +1,14 @@
 {
 	"role":{
 		"name": "dev703",
+		"schema_privileges": [{
+		   "privileges": ["SELECT METADATA", "SELECT CDS METADATA"]
+		}],
+		"schema_analytic_privileges": [
+            {
+                "privileges":[ "FLIGHT_VIEW_PRIVILEGE", "::FLIGHT_PRIV" ]
+            }
+        ],
 		"object_privileges":[
 			{
 				"name": "PO.Header",
@@ -19,11 +27,6 @@
 			},
 			{
 				"name": "PO.ItemView",
-				"type": "VIEW",
-				"privileges": [ "SELECT" ]
-			},
-			{
-				"name": "SFLIGHT_MODEL",
 				"type": "VIEW",
 				"privileges": [ "SELECT" ]
 			}			
