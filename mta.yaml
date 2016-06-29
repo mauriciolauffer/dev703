@@ -1,6 +1,6 @@
 _schema-version: 2.0.0
 ID: dev703
-version: 0.0.3
+version: 0.0.4
 
 modules:
 - name: db
@@ -16,6 +16,31 @@ modules:
        TARGET_CONTAINER: ~{hdi-service-name}
    - name: CrossSchemaService
    
+
+- name: web
+  type: html5
+  path: web
+  requires:
+    - name: dev803-uaa
+    - name: nodejs
+      group: destinations
+      properties:
+        name: nodejs
+        url: ~{url}
+        forwardAuthToken: true
+
+- name: js
+  type: nodejs
+  path: js
+  provides: 
+    - name: nodejs
+      properties:
+        url: "${default-url}"
+  requires:
+    - name: dev703-uaa
+    - name: db
+    - name: hdi-container
+
 resources:
 - name: hdi-container
   type: com.sap.xs.hdi-container
@@ -26,3 +51,8 @@ resources:
   type: org.cloudfoundry.existing-service
   parameters:
     service-name: CROSS_SCHEMA_SFLIGHT
+    
+- name: dev703-uaa
+  type: com.sap.xs.uaa
+  parameters:
+    config_path: ./xs-security.json
