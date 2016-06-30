@@ -8,7 +8,9 @@ var xsenv = require("sap-xsenv");
 var excel = require("node-xlsx");
 var fs = require("fs");
 var path = require("path");
-
+//var excel2 = require("xlsx");
+//var bodyParser = require("body-parser");
+//var multer = require("multer");
 
 module.exports = function() {
 	var app = express();
@@ -57,6 +59,48 @@ module.exports = function() {
 						});
 				});
 		});
+
+	//Upload Workshop from Client Side
+	/*	var cpUpload = upload.fields([
+		{name: "users", maxCount: 1	},
+		{name: "users-data", maxCount: 1}
+	]);*/
+/*
+	var cpUpload = upload.any();
+	app.route("/upload")
+		.post(function(req, res) {
+//	app.route("/upload")
+//	   .post(cpUpload, function(err, req, res, next) {
+		console.log(req.rawBody);
+		console.log(req.rawBody.typeof==="string");
+		var data = new Uint8Array(req.rawBody);
+		var arr = new Array();
+		for(var i = 0; i !== data.length; ++i){ arr[i] = String.fromCharCode(data[i]);}
+		var bstr = arr.join("");
+  
+        var obj = excel2.read(bstr, {type: 'binary'});
+		console.log(obj);
+		//	var filename = req.files.displayImage.name;
+		//		var obj = excel.parse(fs.readFileSync(req.files.displayImage.path));
+		//		console.log("received: %s", JSON.stringify(obj));
+		//		var client = req.db;
+		/*	client.prepare(
+				"upsert \"workshop.admin.data::exerciseMaster.workshop\" values(?,?) where WORKSHOP_ID = ?",
+				function(err, statement) {
+					statement.exec([workshopID, JSON_DATA, workshopID],
+						function(err, results) {
+							if (err) {
+								res.type("text/plain").status(500).send("ERROR: " + err);
+							} else {
+								res.type("text/plain").status(200).send("Successful Upsert of Workshop");
+							}
+						}
+					);
+				}
+			);
+			
+			res.type("text/plain").status(500).send("ERROR: " );
+	});*/
 
 
 	return app;
