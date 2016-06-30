@@ -15,6 +15,7 @@ modules:
      properties:
        TARGET_CONTAINER: ~{hdi-service-name}
    - name: CrossSchemaService
+   - name: CrossSchemaSys
    
 
 - name: web
@@ -51,6 +52,11 @@ resources:
   type: org.cloudfoundry.existing-service
   parameters:
     service-name: CROSS_SCHEMA_SFLIGHT
+
+- name: CrossSchemaSys
+  type: org.cloudfoundry.existing-service
+  parameters:
+    service-name: CROSS_SCHEMA_SYS
     
 - name: dev703-uaa
   type: com.sap.xs.uaa
