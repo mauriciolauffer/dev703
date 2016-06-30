@@ -11,7 +11,9 @@
 		"ws": "latest",
 		"sap-textbundle": "latest",
 		"accept-language-parser": "latest",
-		"node-xlsx": "0.6.0"
+		"node-xlsx": "0.6.0",
+		"node-zip": "1.1.1",
+		"xmldoc": "0.5.1"
 	},
 	"description": "",
 	"devDependencies": {

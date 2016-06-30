@@ -31,6 +31,19 @@ try {
     console.error(err);
 }
 
+try {
+    options = xsjs.extend(options, xsenv.getServices({ secureStore: {tag: "hana"} }));
+} catch (err) {
+    console.error(err);
+}
+
+//Add SQLCC
+try {
+    options.hana.sqlcc =  { "com.dev703.sqlcc_config": "CROSS_SCHEMA_SFLIGHT"};
+} catch (err) {
+    console.error(err);
+}
+
 // configure UAA
 try {
     options = xsjs.extend(options, xsenv.getServices({ uaa: {tag: "xsuaa"} }));
