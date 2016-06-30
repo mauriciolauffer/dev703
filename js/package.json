@@ -2,6 +2,7 @@
 	"dependencies": {
 		"sap-xsenv": "1.2.2",
 		"sap-xsjs": "1.6.4",
+		"sap-cds": "1.0.10",
 		"express": "4.12.3",
 		"sap-hdbext": "2.0.4",
 		"sap-xssec": "0.5.4",
