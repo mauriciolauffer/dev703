@@ -34,7 +34,7 @@ module.exports = function() {
 			var query = "SELECT TOP 10 " +
 				" PURCHASEORDERID as \"PurchaseOrderItemId\", " +
 				" PURCHASEORDERITEM as \"ItemPos\", " +
-				" PRODUCT as \"ProductID\", " +
+				" \"PRODUCT.PRODUCTID\" as \"ProductID\", " +
 				" GROSSAMOUNT as \"Amount\" " +
 				" FROM \"PO.Item\"  ";
 			client.prepare(

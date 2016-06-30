@@ -12,10 +12,10 @@ var xml = '<?xml version="1.0" encoding="UTF-8" standalone="yes"?>\n' +
                '<heading>Note heading</heading>'+
                '<body>Note body</body>'+
            '</note>';
-var body;           
+var body = "";           
 var note = new xmlDocument(xml);
 note.eachChild(function(item){
-   body = body + item.val + '</br>';	
+   body += item.val + '</br>';	
 });
 
 $.response.status = $.net.http.OK; 

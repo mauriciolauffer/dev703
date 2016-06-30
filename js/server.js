@@ -11,13 +11,23 @@ var exerciseAsync = require("./exerciseAsync");
 var textBundle = require("./textBundle");
 var chatServer = require("./chatServer");
 var excel = require("./excel");
+var xml = require("./xml");
+var zip = require("./zip");
+var cds = require("./cds");
 
-var app = express();  
+var app = express(); 
+try{
 app.use("/node", node());
 app.use("/node/excAsync", exerciseAsync(server));
 app.use("/node/textBundle", textBundle());
 app.use("/node/chat", chatServer(server));
 app.use("/node/excel", excel());
+app.use("/node/xml", xml());
+app.use("/node/zip", zip());
+app.use("/node/cds", cds());
+} catch(err){
+	console.error(err);
+}
 
 var options = xsjs.extend({
 //	anonymous : true, // remove to authenticate calls
