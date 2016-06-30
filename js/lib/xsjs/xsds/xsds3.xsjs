@@ -1,4 +1,4 @@
-var conn = $.hdb.getConnection();
+var conn = $.db.getConnection();
 var XSDS = $.require("sap-cds").xsjs(conn);
 
 //Import(Namespace,Entity Name, fields, options)
