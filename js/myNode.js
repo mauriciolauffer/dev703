@@ -25,11 +25,15 @@ module.exports = function() {
 	//Hello Router
 	app.route("/")
 		.get(function(req, res) {
-			res.send("Hello World Node.js");
+			var output = "<H1>HDBEXT Examples</H1></br>" +
+				"/example1 - Simple Database Select - In-Line Callbacks</br>" +
+				"/example2 - Simple Database Select - Async Waterfall</br>" +
+				"/example3 - Call Stored Procedure</br>";
+			res.type("text/html").status(200).send(output);
 		});
 
 	//Simple Database Select - In-line Callbacks
-	app.route("/dummy")
+	app.route("/example1")
 		.get(function(req, res) {
 			var client = req.db;
 			client.prepare(
@@ -50,7 +54,7 @@ module.exports = function() {
 		});
 
 	//Simple Database Select - Async Waterfall
-	app.route("/dummy2")
+	app.route("/example2")
 		.get(function(req, res) {
 			var client = req.db;
 			async.waterfall([
@@ -79,6 +83,25 @@ module.exports = function() {
 					callback();
 				}
 			]);
+		});
+
+	//Simple Database Call Stored Procedure
+	app.route("/example3")
+		.get(function(req, res) {
+			var client = req.db;
+			//(Schema, Procedure, callback)
+			client.loadProcedure(null,"get_po_header_data", function(err, sp) {
+				//(Input Parameters, callback(errors, Output Scalar Parameters, [Output Table Parameters])
+				sp.exec({},function(err, parameters, results) {
+					if (err) {
+						res.type("text/plain").status(500).send("ERROR: " + err);
+					}
+					var result = JSON.stringify({
+						EX_TOP_3_EMP_PO_COMBINED_CNT: results
+					});
+					res.type("application/json").status(200).send(result);
+				});
+			});
 		});
 
 	return app;
