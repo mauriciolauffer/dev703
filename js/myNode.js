@@ -1,30 +1,13 @@
-/*eslint no-console: 0, no-unused-vars: 0, no-shadow: 0*/
+/*eslint no-console: 0, no-unused-vars: 0, no-shadow: 0, new-cap:0 */
 "use strict";
 var express = require("express");
-var xssec = require("sap-xssec");
-var passport = require("passport");
-var xsHDBConn = require("sap-hdbext");
-var xsenv = require("sap-xsenv");
 var async = require("async");
 
 module.exports = function() {
-	var app = express();
-	passport.use("JWT", new xssec.JWTStrategy(xsenv.getServices({
-		uaa: {
-			tag: "xsuaa"
-		}
-	}).uaa));
-	app.use(passport.initialize());
-
-	app.use(
-		passport.authenticate("JWT", {
-			session: false
-		}),
-		xsHDBConn.middleware());
-
+    var app = express.Router();
+    
 	//Hello Router
-	app.route("/")
-		.get(function(req, res) {
+	app.get("/", function(req, res) {
 			var output = "<H1>HDBEXT Examples</H1></br>" +
 				"<a href=\"" + app.path() + "/example1\">/example1</a> - Simple Database Select - In-Line Callbacks</br>" +
 				"<a href=\"" + app.path() + "/example2\">/example2</a> - Simple Database Select - Async Waterfall</br>" +
@@ -37,8 +20,7 @@ module.exports = function() {
 		});
 
 	//Simple Database Select - In-line Callbacks
-	app.route("/example1")
-		.get(function(req, res) {
+	app.get("/example1", function(req, res) {
 			var client = req.db;
 			client.prepare(
 				"select SESSION_USER from \"DUMMY\" ",
@@ -58,8 +40,7 @@ module.exports = function() {
 		});
 
 	//Simple Database Select - Async Waterfall
-	app.route("/example2")
-		.get(function(req, res) {
+	app.get("/example2", function(req, res) {
 			var client = req.db;
 			async.waterfall([
 
@@ -90,8 +71,7 @@ module.exports = function() {
 		});
 
 	//Simple Database Call Stored Procedure
-	app.route("/example3")
-		.get(function(req, res) {
+	app.get("/example3", function(req, res) {
 			var client = req.db;
 			//(Schema, Procedure, callback)
 			client.loadProcedure(null, "get_po_header_data", function(err, sp) {
@@ -109,8 +89,7 @@ module.exports = function() {
 		});
 
 	//Database Call Stored Procedure With Inputs
-	app.route("/example4/:partnerRole?")
-		.get(function(req, res) {
+	app.get("/example4/:partnerRole?", function(req, res) {
 			var client = req.db;
 			var partnerRole = req.params.partnerRole;
 			var inputParams = "";
@@ -137,8 +116,7 @@ module.exports = function() {
 		});
 
 	//Call 2 Database Stored Procedures in Parallel
-	app.route("/example5/")
-		.get(function(req, res) {
+	app.get("/example5/", function(req, res) {
 			var client = req.db;
 			var inputParams = {
 				IM_PARTNERROLE: "1"
