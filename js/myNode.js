@@ -29,6 +29,9 @@ module.exports = function() {
 				"<a href=\"" + app.path() + "/example1\">/example1</a> - Simple Database Select - In-Line Callbacks</br>" +
 				"<a href=\"" + app.path() + "/example2\">/example2</a> - Simple Database Select - Async Waterfall</br>" +
 				"<a href=\"" + app.path() + "/example3\">/example3</a> - Call Stored Procedure</br>" +
+				"<a href=\"" + app.path() + "/example4/1\">/example4</a> - Call Stored Procedure with Input = Partner Role 1 </br>" +
+				"<a href=\"" + app.path() + "/example4/2\">/example4</a> - Call Stored Procedure with Input = Partner Role 2 </br>" +
+				"<a href=\"" + app.path() + "/example5\">/example5</a> - Call Two Stored Procedures in Parallel Because We Can!</br>" +				
 				require("./exampleTOC").fill();
 			res.type("text/html").status(200).send(output);
 		});
@@ -103,6 +106,75 @@ module.exports = function() {
 					res.type("application/json").status(200).send(result);
 				});
 			});
+		});
+
+	//Database Call Stored Procedure With Inputs
+	app.route("/example4/:partnerRole?")
+		.get(function(req, res) {
+			var client = req.db;
+			var partnerRole = req.params.partnerRole;
+			var inputParams = "";
+			if (typeof partnerRole === "undefined" || partnerRole === null) {
+				inputParams = {};
+			} else {
+				inputParams = {
+					IM_PARTNERROLE: partnerRole
+				};
+			}
+			//(Schema, Procedure, callback)
+			client.loadProcedure(null, "get_bp_addresses_by_role", function(err, sp) {
+				//(Input Parameters, callback(errors, Output Scalar Parameters, [Output Table Parameters])
+				sp.exec(inputParams, function(err, parameters, results) {
+					if (err) {
+						res.type("text/plain").status(500).send("ERROR: " + err);
+					}
+					var result = JSON.stringify({
+						EX_BP_ADDRESSES: results
+					});
+					res.type("application/json").status(200).send(result);
+				});
+			});
+		});
+
+	//Call 2 Database Stored Procedures in Parallel
+	app.route("/example5/")
+		.get(function(req, res) {
+			var client = req.db;
+			var inputParams = {
+				IM_PARTNERROLE: "1"
+			};
+			var result = {};
+			async.parallel([
+
+				function(cb) {
+					client.loadProcedure(null, "get_po_header_data", function(err, sp) {
+						//(Input Parameters, callback(errors, Output Scalar Parameters, [Output Table Parameters])
+						sp.exec(inputParams, function(err, parameters, results) {
+							result.EX_TOP_3_EMP_PO_COMBINED_CNT = results;
+							cb();
+						});
+					});
+
+				},
+				function(cb) {
+					//(Schema, Procedure, callback)            		
+					client.loadProcedure(null, "get_bp_addresses_by_role", function(err, sp) {
+						//(Input Parameters, callback(errors, Output Scalar Parameters, [Output Table Parameters])
+						sp.exec(inputParams, function(err, parameters, results) {
+							result.EX_BP_ADDRESSES = results;
+							cb();
+						});
+					});
+				}
+			], function(err) {
+				if (err) {
+					res.type("text/plain").status(500).send("ERROR: " + err);
+				} else {
+					res.type("application/json").status(200).send(JSON.stringify(result));
+				}
+
+			});
+
 		});
 
 	return app;
