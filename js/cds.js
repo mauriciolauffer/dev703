@@ -35,10 +35,11 @@ module.exports = function() {
 	app.route("/")
 		.get(function(req, res) {
 			var output = "<H1>Node-CDS Examples</H1></br>" +
-				"/example1 - Unmanaged Query</br>" +
-				"/example2 - Managed Find</br>" +
-				"/example3 - Managed Get</br>" +
-				"/example4 - Managed Update/Save</br>";	
+				"<a href=\"" + app.path() + "/example1\">/example1</a> - Unmanaged Query</br>" +
+				"<a href=\"" + app.path() + "/example2\">/example2</a> - Managed Find</br>" +
+				"<a href=\"" + app.path() + "/example3\">/example3</a> - Managed Get</br>" +
+				"<a href=\"" + app.path() + "/example4\">/example4</a> - Managed Update/Save</br>" +
+				require("./exampleTOC").fill();
 			res.type("text/html").status(200).send(output);
 		});
 
@@ -71,13 +72,15 @@ module.exports = function() {
 
 		});
 
-//Managed Get 
+	//Managed Get 
 	app.route("/example3")
 		.get(function(req, res) {
 
 			cds.$getTransaction(req.db, function(error, tx) {
 				client = tx;
-				client.$get(oEmployee, { EMPLOYEEID: "1" },
+				client.$get(oEmployee, {
+						EMPLOYEEID: "1"
+					},
 					function(error, instance) {
 						res.type("application/json").status(200).send(JSON.stringify(instance));
 						client.$close();
@@ -86,16 +89,18 @@ module.exports = function() {
 
 		});
 
-//Managed Get and Update
+	//Managed Get and Update
 	app.route("/example4")
 		.get(function(req, res) {
 
 			cds.$getTransaction(req.db, function(error, tx) {
 				client = tx;
-				client.$get(oEmployee, { EMPLOYEEID: "1" },
+				client.$get(oEmployee, {
+						EMPLOYEEID: "1"
+					},
 					function(error, instance) {
 						instance.VALIDITY.STARTDATE = new Date();
-						client.$save(instance, function(error, savedInstance){
+						client.$save(instance, function(error, savedInstance) {
 							res.type("application/json").status(200).send(JSON.stringify(savedInstance));
 							client.$close();
 						});
@@ -103,6 +108,6 @@ module.exports = function() {
 			});
 
 		});
-		
+
 	return app;
 };

@@ -26,9 +26,10 @@ module.exports = function() {
 	app.route("/")
 		.get(function(req, res) {
 			var output = "<H1>HDBEXT Examples</H1></br>" +
-				"/example1 - Simple Database Select - In-Line Callbacks</br>" +
-				"/example2 - Simple Database Select - Async Waterfall</br>" +
-				"/example3 - Call Stored Procedure</br>";
+				"<a href=\"" + app.path() + "/example1\">/example1</a> - Simple Database Select - In-Line Callbacks</br>" +
+				"<a href=\"" + app.path() + "/example2\">/example2</a> - Simple Database Select - Async Waterfall</br>" +
+				"<a href=\"" + app.path() + "/example3\">/example3</a> - Call Stored Procedure</br>" +
+				require("./exampleTOC").fill();
 			res.type("text/html").status(200).send(output);
 		});
 
@@ -90,9 +91,9 @@ module.exports = function() {
 		.get(function(req, res) {
 			var client = req.db;
 			//(Schema, Procedure, callback)
-			client.loadProcedure(null,"get_po_header_data", function(err, sp) {
+			client.loadProcedure(null, "get_po_header_data", function(err, sp) {
 				//(Input Parameters, callback(errors, Output Scalar Parameters, [Output Table Parameters])
-				sp.exec({},function(err, parameters, results) {
+				sp.exec({}, function(err, parameters, results) {
 					if (err) {
 						res.type("text/plain").status(500).send("ERROR: " + err);
 					}

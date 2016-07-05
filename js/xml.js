@@ -26,7 +26,10 @@ module.exports = function() {
 	//Hello Router
 	app.route("/")
 		.get(function(req, res) {
-			res.send("XML Example");
+			var output = "<H1>XML Examples</H1></br>" +
+				"<a href=\"" + app.path() + "/example1\">/example1</a> - Simple XML parsing</br>" +
+				require("./exampleTOC").fill();
+			res.type("text/html").status(200).send(output);
 		});
 
 	//Simple Database Select - In-line Callbacks

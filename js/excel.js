@@ -27,6 +27,15 @@ module.exports = function() {
 		}),
 		xsHDBConn.middleware());
 
+	//Hello Router
+	app.route("/")
+		.get(function(req, res) {
+			var output = "<H1>Excel Examples</H1></br>" +
+				"<a href=\"" + app.path() + "/download\">/download</a> - Download data in Excel XLSX format</br>" +
+				require("./exampleTOC").fill();
+			res.type("text/html").status(200).send(output);
+		});
+
 	//Simple Database Select - In-line Callbacks
 	app.route("/download")
 		.get(function(req, res) {
@@ -65,7 +74,7 @@ module.exports = function() {
 		{name: "users", maxCount: 1	},
 		{name: "users-data", maxCount: 1}
 	]);*/
-/*
+	/*
 	var cpUpload = upload.any();
 	app.route("/upload")
 		.post(function(req, res) {
@@ -101,7 +110,6 @@ module.exports = function() {
 			
 			res.type("text/plain").status(500).send("ERROR: " );
 	});*/
-
 
 	return app;
 };

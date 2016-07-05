@@ -25,7 +25,10 @@ module.exports = function() {
 	//Hello Router
 	app.route("/")
 		.get(function(req, res) {
-			res.send("ZIP Example");
+			var output = "<H1>ZIP Examples</H1></br>" +
+				"<a href=\"" + app.path() + "/example1\">/example1</a> - Download data in ZIP format - folder and files</br>" +
+				require("./exampleTOC").fill();
+			res.type("text/html").status(200).send(output);
 		});
 
 	//Simple Database Select - In-line Callbacks
