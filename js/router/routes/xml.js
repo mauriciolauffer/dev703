@@ -1,40 +1,22 @@
-/*eslint no-console: 0, no-unused-vars: 0, no-shadow: 0, quotes: 0*/
+/*eslint no-console: 0, no-unused-vars: 0, no-shadow: 0, quotes: 0, new-cap: 0*/
 "use strict";
 var express = require("express");
-var xssec = require("sap-xssec");
-var passport = require("passport");
-var xsHDBConn = require("sap-hdbext");
-var xsenv = require("sap-xsenv");
-var async = require("async");
 var XmlDocument = require("xmldoc").XmlDocument;
 
 module.exports = function() {
-	var app = express();
-	passport.use("JWT", new xssec.JWTStrategy(xsenv.getServices({
-		uaa: {
-			tag: "xsuaa"
-		}
-	}).uaa));
-	app.use(passport.initialize());
+	var app = express.Router();
 
-	app.use(
-		passport.authenticate("JWT", {
-			session: false
-		}),
-		xsHDBConn.middleware());
 
 	//Hello Router
-	app.route("/")
-		.get(function(req, res) {
+	app.get("/", function(req, res) {
 			var output = "<H1>XML Examples</H1></br>" +
-				"<a href=\"" + app.path() + "/example1\">/example1</a> - Simple XML parsing</br>" +
-				require("./exampleTOC").fill();
+				"<a href=\"" + req.baseUrl + "/example1\">/example1</a> - Simple XML parsing</br>" +
+				require(global.__base + "utils/exampleTOC").fill();
 			res.type("text/html").status(200).send(output);
 		});
 
 	//Simple Database Select - In-line Callbacks
-	app.route("/example1")
-		.get(function(req, res) {
+	app.get("/example1", function(req, res) {
 			var xml = '<?xml version="1.0" encoding="UTF-8" standalone="yes"?>\n' +
 				'<!-- this is a note -->\n' +
 				'<note noteName="NoteName">' +

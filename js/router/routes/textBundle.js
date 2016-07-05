@@ -1,7 +1,7 @@
-/*eslint no-console: 0, no-unused-vars: 0, consistent-return: 0*/
+/*eslint no-console: 0, no-unused-vars: 0, consistent-return: 0, new-cap: 0*/
 "use strict";
 var express = require("express");
-var app = express(); 
+var app = express.Router();
 var os = require("os");
 var TextBundle = require("sap-textbundle").TextBundle;
 var langparser = require("accept-language-parser");
@@ -21,15 +21,16 @@ function getLocale(req) {
 	}
 	return locale;
 }
-	
-module.exports = function(){
 
-   app.route("/")
-	.get(function(req,res){
-		var bundle = new TextBundle("./i18n/messages", getLocale(req));
- 		res.writeHead(200, {"Content-Type": "text/plain; charset=utf-8"});	
+module.exports = function() {
+
+	app.get("/", function(req, res) {
+		var bundle = new TextBundle(global.__base + "i18n/messages", getLocale(req));
+		res.writeHead(200, {
+			"Content-Type": "text/plain; charset=utf-8"
+		});
 		var greeting = bundle.getText("greeting", [os.hostname(), os.type()]);
-  		res.end(greeting, "utf-8");
+		res.end(greeting, "utf-8");
 	});
-   return app;	
-};	
+	return app;
+};

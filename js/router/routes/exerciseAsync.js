@@ -1,21 +1,21 @@
-/*eslint no-console: 0, no-unused-vars: 0*/
+/*eslint no-console: 0, no-unused-vars: 0, new-cap:0 */
 "use strict";
 var express = require("express");
-var app = express();
 var WebSocketServer = require("ws").Server;
-var asyncLib = require("./async/async.js");
-var dbAsync = require("./async/databaseAsync.js");
-var dbAsync2 = require("./async/databaseAsync2.js");
-var fileSync = require("./async/fileSync.js");
-var fileAsync = require("./async/fileAsync.js");
-var httpClient = require("./async/httpClient.js");
 
 module.exports = function(server) {
+	var app = express.Router();
+	var asyncLib = require(global.__base + "async/async.js");
+	var dbAsync = require(global.__base + "async/databaseAsync.js");
+	var dbAsync2 = require(global.__base + "async/databaseAsync2.js");
+	var fileSync = require(global.__base + "async/fileSync.js");
+	var fileAsync = require(global.__base + "async/fileAsync.js");
+	var httpClient = require(global.__base + "async/httpClient.js");
 
 	app.use(function(req, res) {
 		var output = "<H1>Asynchronous Examples</H1></br>" +
 			"<a href=\"/exerciseAsync\">/exerciseAsync</a> - Test Framework for Async Examples</br>" +
-			require("./exampleTOC").fill();
+			require(global.__base + "utils/exampleTOC").fill();
 		res.type("text/html").status(200).send(output);
 	});
 	var wss = new WebSocketServer({
