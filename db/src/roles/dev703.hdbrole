@@ -6,7 +6,7 @@
 		}],
 		"schema_analytic_privileges": [
             {
-                "privileges":[ "FLIGHT_VIEW_PRIVILEGE", "::FLIGHT_PRIV" ]
+                "privileges":[ "FLIGHT_VIEW_PRIVILEGE", "::FLIGHT_PRIV", "PO_VIEW_PRIVILEGE" ]
             }
         ],
 		"object_privileges":[
