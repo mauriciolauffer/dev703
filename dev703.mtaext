@@ -1,0 +1,17 @@
+_schema-version: 2.0.0
+ID: dev703.extension
+extends: dev703
+
+resources:
+- name: hdi-container
+  properties:
+    config:
+      schema: DEV703_EXAMPLE
+  
+- name: CrossSchemaService
+  parameters:
+    service-name: CROSS_SCHEMA_SFLIGHT
+
+- name: CrossSchemaSys
+  parameters:
+    service-name: CROSS_SCHEMA_SYS

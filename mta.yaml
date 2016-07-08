@@ -6,17 +6,23 @@ modules:
 - name: db
   type: hdb
   path: db
-  properties:
-    SERVICE_REPLACEMENTS:
-      - key: forgein-schema
-        service: CrossSchemaService
   requires:
    - name: hdi-container
+     group: SERVICE_REPLACEMENTS
      properties:
+       key: hdi-local-service
+       service: ~{hdi-service-name}
        TARGET_CONTAINER: ~{hdi-service-name}
    - name: CrossSchemaService
+     group: SERVICE_REPLACEMENTS
+     properties:
+       key: hdi-sflight-service
+       service: ~{sflight-service-name}   
    - name: CrossSchemaSys
-   
+     group: SERVICE_REPLACEMENTS
+     properties:
+       key: hdi-sys-service
+       service: ~{sys-service-name}   
 
 - name: web
   type: html5
@@ -47,16 +53,22 @@ resources:
   type: com.sap.xs.hdi-container
   properties:
     hdi-service-name: ${service-name}
+    config:
+      schema: DEV703_EXAMPLE
   
 - name: CrossSchemaService
   type: org.cloudfoundry.existing-service
   parameters:
     service-name: CROSS_SCHEMA_SFLIGHT
+  properties:
+    sflight-service-name: ${service-name}
 
 - name: CrossSchemaSys
   type: org.cloudfoundry.existing-service
   parameters:
     service-name: CROSS_SCHEMA_SYS
+  properties:
+    sys-service-name: ${service-name}
     
 - name: dev703-uaa
   type: com.sap.xs.uaa
