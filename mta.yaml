@@ -53,6 +53,7 @@ resources:
   type: com.sap.xs.hdi-container
   properties:
     hdi-service-name: ${service-name}
+  parameters: 
     config:
       schema: DEV703_EXAMPLE
   
