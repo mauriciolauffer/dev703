@@ -5,7 +5,7 @@ var async = require("async");
 
 module.exports = function() {
 	var app = express.Router();
-	
+
 	//Hello Router
 	app.get("/", function(req, res) {
 		var output = "<H1>HDBEXT Examples</H1></br>" +
@@ -25,10 +25,14 @@ module.exports = function() {
 		client.prepare(
 			"select SESSION_USER from \"DUMMY\" ",
 			function(err, statement) {
+				if (err) {
+					res.type("text/plain").status(500).send("ERROR: " + err.toString());
+					return;
+				}
 				statement.exec([],
 					function(err, results) {
 						if (err) {
-							res.type("text/plain").status(500).send("ERROR: " + err);
+							res.type("text/plain").status(500).send("ERROR: " + err.toString());
 						} else {
 							var result = JSON.stringify({
 								Objects: results
@@ -58,7 +62,7 @@ module.exports = function() {
 			},
 			function response(err, results, callback) {
 				if (err) {
-					res.type("text/plain").status(500).send("ERROR: " + err);
+					res.type("text/plain").status(500).send("ERROR: " + err.toString());
 				} else {
 					var result = JSON.stringify({
 						Objects: results
@@ -75,10 +79,14 @@ module.exports = function() {
 		var client = req.db;
 		//(Schema, Procedure, callback)
 		client.loadProcedure(null, "get_po_header_data", function(err, sp) {
+			if (err) {
+				res.type("text/plain").status(500).send("ERROR: " + err.toString());
+				return;
+			}
 			//(Input Parameters, callback(errors, Output Scalar Parameters, [Output Table Parameters])
 			sp.exec({}, function(err, parameters, results) {
 				if (err) {
-					res.type("text/plain").status(500).send("ERROR: " + err);
+					res.type("text/plain").status(500).send("ERROR: " + err.toString());
 				}
 				var result = JSON.stringify({
 					EX_TOP_3_EMP_PO_COMBINED_CNT: results
@@ -102,10 +110,14 @@ module.exports = function() {
 		}
 		//(Schema, Procedure, callback)
 		client.loadProcedure(null, "get_bp_addresses_by_role", function(err, sp) {
+			if (err) {
+				res.type("text/plain").status(500).send("ERROR: " + err.toString());
+				return;
+			}
 			//(Input Parameters, callback(errors, Output Scalar Parameters, [Output Table Parameters])
 			sp.exec(inputParams, function(err, parameters, results) {
 				if (err) {
-					res.type("text/plain").status(500).send("ERROR: " + err);
+					res.type("text/plain").status(500).send("ERROR: " + err.toString());
 				}
 				var result = JSON.stringify({
 					EX_BP_ADDRESSES: results
@@ -126,6 +138,7 @@ module.exports = function() {
 
 			function(cb) {
 				client.loadProcedure(null, "get_po_header_data", function(err, sp) {
+					if(err){ cb(err); return; }
 					//(Input Parameters, callback(errors, Output Scalar Parameters, [Output Table Parameters])
 					sp.exec(inputParams, function(err, parameters, results) {
 						result.EX_TOP_3_EMP_PO_COMBINED_CNT = results;
@@ -137,6 +150,7 @@ module.exports = function() {
 			function(cb) {
 				//(Schema, Procedure, callback)            		
 				client.loadProcedure(null, "get_bp_addresses_by_role", function(err, sp) {
+					if(err){ cb(err); return; }
 					//(Input Parameters, callback(errors, Output Scalar Parameters, [Output Table Parameters])
 					sp.exec(inputParams, function(err, parameters, results) {
 						result.EX_BP_ADDRESSES = results;

@@ -29,6 +29,10 @@ module.exports = function() {
 		oEmployee.$query().$project({
 			LOGINNAME: true
 		}).$execute({}, function(error, results) {
+			if (error) {
+				res.type("text/plain").status(500).send("ERROR: " + error.toString());
+				return;
+			}
 			res.type("application/json").status(200).send(JSON.stringify(results));
 		});
 	});
@@ -37,6 +41,10 @@ module.exports = function() {
 	app.get("/example2", function(req, res) {
 
 		cds.$getTransaction(req.db, function(error, tx) {
+			if (error) {
+				res.type("text/plain").status(500).send("ERROR: " + error.toString());
+				return;
+			}
 			client = tx;
 			client.$find(oEmployee, {
 					LOGINNAME: {
@@ -44,6 +52,10 @@ module.exports = function() {
 					}
 				},
 				function(error, instances) {
+					if (error) {
+						res.type("text/plain").status(500).send("ERROR: " + error.toString());
+						return;
+					}
 					res.type("application/json").status(200).send(JSON.stringify(instances));
 					client.$close();
 				});
@@ -55,11 +67,19 @@ module.exports = function() {
 	app.get("/example3", function(req, res) {
 
 		cds.$getTransaction(req.db, function(error, tx) {
+			if (error) {
+				res.type("text/plain").status(500).send("ERROR: " + error.toString());
+				return;
+			}
 			client = tx;
 			client.$get(oEmployee, {
 					EMPLOYEEID: "1"
 				},
 				function(error, instance) {
+					if (error) {
+						res.type("text/plain").status(500).send("ERROR: " + error.toString());
+						return;
+					}
 					res.type("application/json").status(200).send(JSON.stringify(instance));
 					client.$close();
 				});
@@ -71,11 +91,19 @@ module.exports = function() {
 	app.get("/example4", function(req, res) {
 
 		cds.$getTransaction(req.db, function(error, tx) {
+			if (error) {
+				res.type("text/plain").status(500).send("ERROR: " + error.toString());
+				return;
+			}
 			client = tx;
 			client.$get(oEmployee, {
 					EMPLOYEEID: "1"
 				},
 				function(error, instance) {
+					if (error) {
+						res.type("text/plain").status(500).send("ERROR: " + error.toString());
+						return;
+					}
 					instance.VALIDITY.STARTDATE = new Date();
 					client.$save(instance, function(error, savedInstance) {
 						res.type("application/json").status(200).send(JSON.stringify(savedInstance));

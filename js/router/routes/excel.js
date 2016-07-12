@@ -31,6 +31,10 @@ module.exports = function() {
 		client.prepare(
 			query,
 			function(err, statement) {
+				if (err) {
+					res.type("text/plain").status(500).send("ERROR: " + err.toString());
+					return;
+				}
 				statement.exec([],
 					function(err, rs) {
 						if (err) {
