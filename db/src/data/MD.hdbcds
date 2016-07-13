@@ -1,6 +1,7 @@
 using EPM;
 using Util;
-
+//using POViews as PO;
+//using SO;
 
 context MD {
 
@@ -31,6 +32,7 @@ Type HistT {
         VALIDITY: EPM.ValidityT;   
         LATITUDE: Double;
         LONGITUDE: Double; 
+		POINT: hana.ST_POINT;        
     };
     
     Entity BusinessPartner {
@@ -45,8 +47,9 @@ Type HistT {
         LEGALFORM: EPM.BusinessKey;
         HISTORY: HistT;
         CURRENCY: EPM.CurrencyT;
+    //    ORDERS : Association[*] to SO.Header on ORDERS.PARTNER.PARTNERID = PARTNERID;
     };
-  
+ 
     Entity Employees {
         key  EMPLOYEEID: EPM.BusinessKey;
         NAME: NameT null;
@@ -84,7 +87,8 @@ Type HistT {
         DEPTH: EPM.QuantityT;
         HEIGHT: EPM.QuantityT;
         DIMENSIONUNIT: EPM.UnitT;
-
+    } technical configuration {
+    	fulltext index FTI_CATEGORY on (CATEGORY) ASYNC SEARCH ONLY off; 
     };
 
     Entity productLog{
@@ -95,56 +99,4 @@ Type HistT {
 	 LOGTEXT: String(500);
     }; 
  
- define view BuyerView as SELECT from MD.BusinessPartner {
-        PARTNERID as "Id",
-        EMAILADDRESS as "EmailAddress",
-        COMPANYNAME as "CompanyName",
-        ADDRESSES.CITY as "City",
-        ADDRESSES.POSTALCODE as "PostalCode",
-        ADDRESSES.STREET as "Street",
-        ADDRESSES.BUILDING as "Building",
-        ADDRESSES.COUNTRY as "Country",
-        ADDRESSES.REGION as "Region",
-        HISTORY.CREATEDBY.LOGINNAME as "CreatedBy"
-   } where PARTNERROLE = '01';
- 
-    define view SupplierView as SELECT from MD.BusinessPartner {
-        PARTNERID as "Id",
-        EMAILADDRESS as "EmailAddress",
-        COMPANYNAME as "CompanyName",
-        ADDRESSES.CITY as "City",
-        ADDRESSES.POSTALCODE as "PostalCode",
-        ADDRESSES.STREET as "Street",
-        ADDRESSES.BUILDING as "Building",
-        ADDRESSES.COUNTRY as "Country",
-        ADDRESSES.REGION as "Region",
-        HISTORY.CREATEDBY.LOGINNAME as "CreatedBy"
-   }  where PARTNERROLE = '02';
-  
-     
-   define view ProductView as SELECT from MD.Products {
-		PRODUCTID as "Product_Id", 
-        NAMEID,
-        DESCID,				
-		CATEGORY as "Product_Category",
-		CURRENCY as "Product_Currency",
-        PRICE as "Product_Price",		
-		TYPECODE as "Product_TypeCode",
-        WEIGHTMEASURE as "Product_WeightMeasure",
-        WEIGHTUNIT as "Product_WeightUnit",
-        SUPPLIER.PARTNERID as "Supplier_Id",
-        SUPPLIER.COMPANYNAME as "Supplier_CompanyName",
-        SUPPLIER.ADDRESSES.CITY as "Supplier_City",
-        SUPPLIER.ADDRESSES.POSTALCODE as "Supplier_PostalCode",
-        SUPPLIER.ADDRESSES.STREET as "Supplier_Street",
-        SUPPLIER.ADDRESSES.BUILDING as "Supplier_Building",
-        SUPPLIER.ADDRESSES.COUNTRY as "Supplier_Country"
-   };
-   
-//   define view ProductValuesView as SELECT from MD.Products {
-//		PRODUCTID as "Product_Id", 
-//		PO_ORDERS."CurrencyCode" as "CurrencyCode",		
-//		SUM(PO_ORDERS."Amount") as "POGrossAmount"
-//   } group by PRODUCTID, PO_ORDERS."CurrencyCode";
-
 }; 

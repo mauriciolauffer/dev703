@@ -14,6 +14,8 @@ context Util {
         LANGUAGE: EPM.ABAPLanguage;
         ISOLANGUAGE: EPM.ISOLanguageT;
         TEXT: EPM.VLString null;     
+    } technical configuration {
+    	fulltext index FTI_TEXT on (TEXT) ASYNC SEARCH ONLY OFF;
     };
         
     Entity Messages {
@@ -40,7 +42,18 @@ context Util {
         CREATEDAT: EPM.SDate;
         THUMBNAIL: EPM.LString;      
     };   
-    
+
+	entity MySeriesEntity {
+		key setId : Integer;
+		key t : UTCTimestamp;
+		value : Decimal(10,4);
+		series (
+    		series key (setId)
+    		period for series (t)           
+    		equidistant increment by interval 0.1 second 
+		)
+	};    
+  
     Entity Attachments {
         key  NOTEID: EPM.BusinessKey;
         LINKID: EPM.BusinessKey;        

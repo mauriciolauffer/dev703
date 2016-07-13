@@ -1,0 +1,51 @@
+{
+	"welcomeFile": "index.html",
+	"authenticationMethod": "route",
+	"websockets": {
+		"enabled": true
+	},
+	"routes": [{
+		"source": "/node(.*)",
+		"destination": "nodejs",
+		"csrfProtection": true,
+		"authenticationType": "xsuaa",
+		"scope": {
+			"GET": "$XSAPPNAME.Display",
+			"POST": ["$XSAPPNAME.Display", "$XSAPPNAME.Create"],
+			"PUT": ["$XSAPPNAME.Display", "$XSAPPNAME.Create"],
+			"DELETE": ["$XSAPPNAME.Display", "$XSAPPNAME.Delete"],
+			"default": "$XSAPPNAME.Display"
+		}
+	}, {
+		"source": "(.*)(.xsjs)",
+		"destination": "nodejs",
+		"csrfProtection": true,
+		"authenticationType": "xsuaa",
+		"scope": {
+			"GET": "$XSAPPNAME.Display",
+			"POST": ["$XSAPPNAME.Display", "$XSAPPNAME.Create"],
+			"PUT": ["$XSAPPNAME.Display", "$XSAPPNAME.Create"],
+			"DELETE": ["$XSAPPNAME.Display", "$XSAPPNAME.Delete"],
+			"default": "$XSAPPNAME.Display"
+		}
+	}, {
+		"source": "(.*)(.xsodata)",
+		"destination": "nodejs",
+		"authenticationType": "xsuaa",
+		"scope": {
+			"GET": "$XSAPPNAME.Display",
+			"POST": ["$XSAPPNAME.Display", "$XSAPPNAME.Create"],
+			"PUT": ["$XSAPPNAME.Display", "$XSAPPNAME.Create"],
+			"DELETE": ["$XSAPPNAME.Display", "$XSAPPNAME.Delete"],
+			"default": "$XSAPPNAME.Display"
+		}
+	}, {
+		"source": "^/(.*)$",
+		"localDir": "resources",
+		"authenticationType": "xsuaa",
+		"scope": {
+			"GET": "$XSAPPNAME.Display",
+			"default": "$XSAPPNAME.Display"
+		}
+	}]
+}

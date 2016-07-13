@@ -36,7 +36,7 @@ context PO {
 		DELIVERYDATE: EPM.SDate;
     };
   
-  define view HeaderView as SELECT from Header {
+ define view HeaderView as SELECT from PO.Header {
       PURCHASEORDERID as "PurchaseOrderId", 
       HISTORY.CREATEDBY.EMPLOYEEID as "CreatedByEmployeeId",
       HISTORY.CREATEDBY.NAME.FIRST as "CreatedByFirstName",
@@ -51,7 +51,7 @@ context PO {
 	  TAXAMOUNT as "TaxAmount"
    };
    
-   define view ItemView as SELECT from Item {
+   define view ItemView as SELECT from PO.Item {
       PURCHASEORDERID as "PurchaseOrderItemId", 
       PURCHASEORDERITEM as "ItemPos",
 	  PRODUCT.PRODUCTID as "ProductID",
@@ -64,7 +64,7 @@ context PO {
 	  DELIVERYDATE as "DeliveryDate1"
    };
    
-   define view POWorklistView as SELECT from Item {
+   define view POWorklistView as SELECT from PO.Item {
       PURCHASEORDERID as "PurchaseOrderId", 
       PURCHASEORDERITEM as "PurchaseOrderItem",
       HEADER.PARTNER.PARTNERID as "PartnerId",
@@ -88,5 +88,5 @@ context PO {
 	  QUANTITY as "Quantity",
 	  QUANTITYUNIT as "QuantityUnit",
 	  DELIVERYDATE as "DeliveryDate"
-   };    
+   };     
 };

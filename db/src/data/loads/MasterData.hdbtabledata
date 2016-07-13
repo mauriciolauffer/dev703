@@ -21,7 +21,8 @@
 					"VALIDITY.STARTDATE",
 					"VALIDITY.ENDDATE",
 					"LATITUDE",
-					"LONGITUDE"
+					"LONGITUDE",
+					"POINT"
                 ]
             }
         },
