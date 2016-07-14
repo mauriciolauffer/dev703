@@ -16,5 +16,11 @@
       "object": "SPFLI",
       "schema": "SFLIGHT"
     }
+  },
+  "test::PLANE": {
+    "target": {
+      "object": "SAPLANE",
+      "schema": "SFLIGHT"
+    }
   }
-} 
+}  
