@@ -33,6 +33,8 @@ Type HistT {
         LATITUDE: Double;
         LONGITUDE: Double; 
 		POINT: hana.ST_POINT;        
+    } technical configuration {
+    	unload priority 8;
     };
     
     Entity BusinessPartner {
@@ -47,8 +49,11 @@ Type HistT {
         LEGALFORM: EPM.BusinessKey;
         HISTORY: HistT;
         CURRENCY: EPM.CurrencyT;
-    //    ORDERS : Association[*] to SO.Header on ORDERS.PARTNER.PARTNERID = PARTNERID;
     };
+    //    crashes the DI Deployer :(
+//    } technical configuration {
+//    	partition by range (PARTNERID) ( Partition 1 <= VALUES < 2, partition 2 <= values < 3, partition others);
+//    };
  
     Entity Employees {
         key  EMPLOYEEID: EPM.BusinessKey;
@@ -66,6 +71,7 @@ Type HistT {
         BANKID: EPM.BusinessKey;
         BANKNAME: EPM.LString;
         EMPLOYEEPICURL: EPM.LString;
+        FULLNAME: String(100) = NAME.FIRST || ' ' || NAME.LAST;
     };
 
     Entity Products {
