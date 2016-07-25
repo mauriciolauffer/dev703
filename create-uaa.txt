@@ -1,1 +1,1 @@
-xs create-service xsuaa default dev703-uaa -c xs-security.json
+xs create-service xsuaa space dev703-uaa -c xs-security.json
